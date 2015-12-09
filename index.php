@@ -1,14 +1,6 @@
 <?php
 	include 'message.php';
 	ini_set('date.timezone','Asia/Taipei');
-
-	if($_POST){
-		$post_data = array($_POST["username"], $_POST["useremail"], $_POST["messagetitle"], $_POST["message"]);
-		$file_save_name = "message/" . date("y-m-d-H-i-s", time()) . ".txt";
-		$fh = fopen($file_save_name, 'w');
-		fputcsv($fh, $post_data);
-		fclose($fh);
-	}
 ?>
 
 <!DOCTYPE html>
@@ -49,10 +41,9 @@
 
 		<?php foreach ($messages as $message) { ?>
 			<li>
-				<?php $tt_filename = $message->filename; ?>
 				<?php
-					echo "<a href='test.php?filename=$tt_filename'>" . $message->messagetitle;
-					echo "<a/>";
+					$tt_filename = $message->filename;
+					echo "<a href='test.php?filename=$tt_filename'>" . $message->messagetitle . "<a/>";
 				?>
 			</li>
 		<?php } ?>
@@ -60,7 +51,7 @@
 
 	<hr />
 
-	<form method='post' action="index.php" enctype="multipart/form-data">
+	<form method='post' action="process.php" enctype="multipart/form-data">
 		<p>
 			留言人：<input type="text" name="username" size="10">
 		</p>
