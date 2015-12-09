@@ -17,11 +17,11 @@
 
 			$dir = opendir("message");
 			while ($file = readdir($dir)) {
-				if($this_file_name = strstr($file, '.txt', true)){
-					$tmp_path = "message/" . $this_file_name . '.txt';
+				if($this_file_name = strstr($file, '.csv', true)){
+					$tmp_path = "message/" . $this_file_name . '.csv';
 					if($file = fopen($tmp_path, 'r+')){
 						$tmp_message = new Message;
-						$tmp_message->filename = $this_file_name . '.txt';
+						$tmp_message->filename = $this_file_name . '.csv';
 						while (($data = fgetcsv($file, 1000)) != null) {
 							if(count($data) >= 4){
 								$tmp_message->username = $data[0];
@@ -43,7 +43,8 @@
 			<li>
 				<?php
 					$tt_filename = $message->filename;
-					echo "<a href='show.php?filename=$tt_filename'>" . $message->messagetitle . "<a/>";
+					echo "<a href='show.php?filename=$tt_filename'> 標題： " . $message->messagetitle  . " 留言人： " . $message->username
+					. " 信箱： " . $message->useremail . "<a/>";
 				?>
 			</li>
 		<?php } ?>
