@@ -1,10 +1,12 @@
 <?php
+	include 'message.php';
 	ini_set('date.timezone','Asia/Taipei');
+
 	if($_POST){
-		$str = "\"" . $_POST["username"] . "\",\"" . $_POST["useremail"] . "\",\"" . $_POST["messagetitle"] . "\",\"" . $_POST["message"] . "\"";
+		$post_data = array($_POST["username"], $_POST["useremail"], $_POST["messagetitle"], $_POST["message"]);
 		$file_save_name = "message/" . date("y-m-d-H-i-s", time()) . ".txt";
 		$fh = fopen($file_save_name, 'w');
-		fwrite($fh, $str);
+		fputcsv($fh, $post_data);
 		fclose($fh);
 	}
 ?>
@@ -18,9 +20,6 @@
 <body>
 	<p>
 		<?php
-			ini_set('date.timezone','Asia/Taipei');
-			include 'message.php';
-
 			$messages = array();
 			$tmp_message_name = array();
 
@@ -72,9 +71,7 @@
 			留言主題：<input type="text" name="messagetitle" size="20">
 		</p>
 		<p>
-			留言：
-		</p>
-		<p>
+			留言： <br>
 			<textarea name="message" cols="60" rows="30"></textarea>
 			<!-- <input type="text" name="messgae" size="200"> -->
 		</p>

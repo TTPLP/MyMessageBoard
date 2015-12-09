@@ -45,8 +45,6 @@
 		?>
 	</p>
 
-	<form action="index.php">
-		<input type="submit" value="返回">
-	</form>
+	<input type="submit" onclick="history.go(-1)" value="返回">
 </body>
 </html>
