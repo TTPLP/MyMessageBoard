@@ -10,6 +10,7 @@
 	<title><?php echo "我的留言版"?></title>
 </head>
 <body>
+	<p align="center"><label>留言列表</label></p>
 	<p>
 		<?php
 			$messages = array();
@@ -27,7 +28,6 @@
 								$tmp_message->username = $data[0];
 								$tmp_message->useremail = $data[1];
 								$tmp_message->messagetitle = $data[2];
-								$tmp_message->message = "\"" . $data[3] . "\"";
 							}
 						}
 						$messages[] = $tmp_message;
@@ -37,21 +37,26 @@
 			}
 			closedir($dir);
 		?>
-		<a href=""></a>
 
-		<?php foreach ($messages as $message) { ?>
-			<li>
-				<?php
-					$tt_filename = $message->filename;
-					echo "<a href='show.php?filename=$tt_filename'> 標題： " . $message->messagetitle  . " 留言人： " . $message->username
-					. " 信箱： " . $message->useremail . "<a/>";
-				?>
-			</li>
-		<?php } ?>
+		<form action="del_process.php" method="post">
+			<?php foreach ($messages as $message) { ?>
+				<li>
+					<?php $tt_filename = $message->filename?>
+					<input type="checkbox" name="del[]" value="<?= $message->filename?>">
+					<label> 主題：<a href="show.php?filename=<?= $tt_filename?>"><?= $message->messagetitle . " "?> </a></label>
+					留言人：<?= $message->username?>
+					信箱：<?= $message->useremail?>
+				</li>
+			<?php } ?>
+			<br>
+			<input type="submit" value="刪除">
+		</form>
+		<form action=""></form>
 	</p>
 
 	<hr />
 
+	<p align="center"><label>新增留言</label></p>
 	<form method='post' action="process.php" enctype="multipart/form-data">
 		<p>
 			留言人：<input type="text" name="username" size="10">
