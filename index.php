@@ -43,7 +43,7 @@
 			<li>
 				<?php
 					$tt_filename = $message->filename;
-					echo "<a href='test.php?filename=$tt_filename'>" . $message->messagetitle . "<a/>";
+					echo "<a href='show.php?filename=$tt_filename'>" . $message->messagetitle . "<a/>";
 				?>
 			</li>
 		<?php } ?>
