@@ -43,7 +43,7 @@
 				<li>
 					<?php $tt_filename = $message->filename?>
 					<input type="checkbox" name="del[]" value="<?= $message->filename?>">
-					<label> 主題：<a href="show.php?filename=<?= $tt_filename?>"><?= $message->messagetitle . " "?> </a></label>
+					<label> 主題：<a href="show.php?filename=<?= $tt_filename?>"><?= $message->messagetitle?> </a></label>
 					留言人：<?= $message->username?>
 					信箱：<?= $message->useremail?>
 				</li>
@@ -57,7 +57,7 @@
 	<hr />
 
 	<p align="center"><label>新增留言</label></p>
-	<form method='post' action="process.php" enctype="multipart/form-data">
+	<form method='post' action="process.php">
 		<p>
 			留言人：<input type="text" name="username" size="10">
 		</p>

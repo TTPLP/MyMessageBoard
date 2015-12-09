@@ -46,6 +46,6 @@
 	</p>
 
 	<input type="submit" onclick="window.history.go(-1);" value="返回">
-	<input type="submit" onclick="window.history.go(-1)" value="GOGO">
+	<input name="del[]" type="submit" value="刪除" onclick="location.href='del_process.php?del=<?= $filename?>'">
 </body>
 </html>
