@@ -1,6 +1,7 @@
 <?php
     include 'message.php';
-    ini_set('date.timezone','Asia/Taipei');
+    ini_set('date.timezone','Asia/Taipei'); //php.ini
+    //
 ?>
 
 <!DOCTYPE html>
@@ -13,45 +14,67 @@
     <p align="center"><label>留言列表</label></p>
     <p>
         <?php
-            $messages = array();
+            $MESSAGES = array();
             $tmp_message_name = array();
-
             $dir = opendir("message");
-            while ($file = readdir($dir)) {
-                if($this_file_name = strstr($file, '.csv', true)){
-                    $tmp_path = "message/" . $this_file_name . '.csv';
-                    if($file = fopen($tmp_path, 'r+')){
-                        $tmp_message = new Message;
-                        $tmp_message->filename = $this_file_name . '.csv';
-                        while (($data = fgetcsv($file, 1000)) != null) {
-                            if(count($data) >= 4){
-                                $tmp_message->username = $data[0];
-                                $tmp_message->useremail = $data[1];
-                                $tmp_message->messagetitle = $data[2];
-                            }
-                        }
-                        $messages[] = $tmp_message;
-                        fclose($file);
-                    }
-                }
+            if(file_exists("data.json") === false){
+                $fh = fopen("data.json", 'w');
+                fclose($fh);
             }
-            closedir($dir);
+
+            $fh = fopen('data.json', 'r');
+            $data = "";
+            $tmp = "";
+            while (($tmp = fgets($fh, 4096)) !== false) {
+                $data .= $tmp;
+            }
+
+            $tmp_data = json_decode($data);
+
+            fclose($fh);
+
+            if($tmp_data !== null){ ?>
+                <form action="del_process.php" method="post">
+                    <?php foreach ($tmp_data as $key => $value) {?>
+                        <li>
+                            <input type="checkbox" name="del[]" value="<?= $key?>">
+                            <label> 主題：<a href="show.php?filename=<?= $key?>"><?= $value->messageTitle?> </a></label>
+                            留言人：<?= $value->userName?>
+                            信箱：<?= $value->userEmail?>
+                        </li>
+                    <?php }?>
+                    <br>
+                    <input type="submit" value="刪除">
+                </form>
+
+        <?php } ?>
+        <?php
+            // while ($file = readdir($dir)) {
+
+
+            //     if($this_file_name = strstr($file, '.csv', true)){
+            //         $tmp_path = "message/" . $this_file_name . '.csv';
+            //         if($file = fopen($tmp_path, 'r+')){
+            //             $tmp_message = new Message("", "", "", "", "", "");
+            //             //
+            //             $tmp_message->setFileName($this_file_name . '.csv');
+            //             //
+            //             while (($data = fgetcsv($file, 1000)) != null) {
+            //                 if(count($data) >= 4){
+            //                     $tmp_message->setUserName($date[0]);
+            //                     $tmp_message->setUserEmail($data[1]);
+            //                     $tmp_message->setMessageTitle($date[2]);
+            //                 }
+            //             }
+            //             array_push($MESSAGES, $tmp_message);
+            //             fclose($file);
+            //         }
+            //     }
+            // }
+            // closedir($dir);
         ?>
 
-        <form action="del_process.php" method="post">
-            <?php foreach ($messages as $message) { ?>
-                <li>
-                    <?php $tt_filename = $message->filename?>
-                    <input type="checkbox" name="del[]" value="<?= $message->filename?>">
-                    <label> 主題：<a href="show.php?filename=<?= $tt_filename?>"><?= $message->messagetitle?> </a></label>
-                    留言人：<?= $message->username?>
-                    信箱：<?= $message->useremail?>
-                </li>
-            <?php } ?>
-            <br>
-            <input type="submit" value="刪除">
-        </form>
-        <form action=""></form>
+
     </p>
 
     <hr />
@@ -59,20 +82,11 @@
     <p align="center"><label>新增留言</label></p>
     <form method='post' action="process.php">
         <p>
-            留言人：<input type="text" name="username" size="10">
-        </p>
-        <p>
-            Email：<input type="text" name="useremail" size="20">
-        </p>
-        <p>
-            留言主題：<input type="text" name="messagetitle" size="20">
-        </p>
-        <p>
+            留言人：<input type="text" name="userName" size="10"><br>
+            Email：<input type="text" name="userEmail" size="20"><br>
+            留言主題：<input type="text" name="messageTitle" size="20"> <br>
             留言： <br>
-            <textarea name="message" cols="60" rows="30"></textarea>
-            <!-- <input type="text" name="messgae" size="200"> -->
-        </p>
-        <p>
+            <textarea name="content" cols="60" rows="30"></textarea><br>
             <input type="submit" value="送出">
         </p>
     </form>

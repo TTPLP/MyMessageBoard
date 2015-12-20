@@ -1,16 +1,28 @@
 <?php
     include 'message.php';
     $message = new Message;
+
+    $fh = fopen('data.json', 'r');
+
+    $data_str = "";
+    $tmp = "";
+
+    while (($tmp = fgets($fh)) !== null) {
+        $data_str .= $tmp;
+    }
+
+    fclose($fh);
+
     $filename = $_GET['filename'];
     $path = 'message/' . $filename;
-    if($file = fopen($path, 'r+')){
+    if($file = fopen($path, 'r+') != null){
         $message->filename = $filename;
         while (($data = fgetcsv($file, 1000)) != null) {
             if(count($data) >= 4){
-                $message->username = $data[0];
-                $message->useremail = $data[1];
-                $message->messagetitle = $data[2];
-                $message->message = $data[3];
+                $message->setUserName($date[0]);
+                $message->setUserEmail($date[1]);
+                $message->setMessageTitle($data[2]);
+                $message->setContent($data[3]);
             }
         }
         fclose($file);
@@ -41,7 +53,7 @@
     </p>
     <p>
         <?php
-            echo "內容: <p>$message->message</p>";
+            echo "內容: <p>$message->getContent()</p>";
         ?>
     </p>
     <p>
