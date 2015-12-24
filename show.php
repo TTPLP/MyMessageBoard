@@ -46,27 +46,29 @@
 <body>
     <p>
         <?php
-            echo "留言人：$message->userName";
+            echo "留言人：$message[userName]";
         ?>
     </p>
     <p>
         <?php
-            echo "email: $message->userEmail";
+            echo "email: $message[userEmail]";
         ?>
     </p>
     <p>
         <?php
-            echo "標題: $message->messageTitle";
+            echo "標題: $message[messageTitle]";
         ?>
     </p>
     <p>
         <?php
-            echo "內容: <p>$message->content</p>";
+            echo "內容: <p>$message[content]</p>";
         ?>
     </p>
     <p>
-        <a href="index.php">返回</a>
-        <a href="del_process.php?del=<?=$filename?>">刪除</a>
+        <a href="message_board.php">返回</a>
+        <?php if($_SESSION['username'] === $message['userName']){?>
+            <a href="del_process.php?del=<?=$key?>">刪除</a>
+        <?php }?>
     </p>
 </body>
 </html>

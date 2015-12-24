@@ -79,7 +79,7 @@
                     $data_str .= $tmp;
                 }
 
-                $all_data = json_decode($data_str);
+                $all_data = json_decode($data_str, true);
                 fclose($fh);
             };
 

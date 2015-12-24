@@ -6,14 +6,11 @@ include("mysql_connect.inc.php");
 $id = $_POST['id'];
 $pw = $_POST['pw'];
 $pw2 = $_POST['pw2'];
-$telephone = $_POST['telephone'];
-$address = $_POST['address'];
-$other = $_POST['other'];
 $email = $_POST['email'];
 
 //判斷帳號密碼是否為空值
 //確認密碼輸入的正確性
-if($id != null && $pw != null && $pw2 != null)
+if($id != null && $pw != null && $pw2 != null && $email != null)
 {
         $sql = "SELECT * FROM member_table where username = '$id'";
         $result = mysql_query($sql);
@@ -33,8 +30,8 @@ if($id != null && $pw != null && $pw2 != null)
             echo '<meta http-equiv=REFRESH CONTENT=3;url=register.php>';
         }else{
             //新增資料進資料庫語法
-            $sql = "insert into member_table (username, password, telephone, address, other, email)" .
-                    " values ('$id', '$pw', '$telephone', '$address', '$other', '$email')";
+            $sql = "insert into member_table (username, password, email)" .
+                    " values ('$id', '$pw', '$email')";
             if(mysql_query($sql))
             {
                     echo '新增成功!';

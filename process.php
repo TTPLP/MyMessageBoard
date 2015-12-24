@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include 'message.php';
     ini_set('date.timezone','Asia/Taipei');
 
@@ -15,8 +16,8 @@
         if($all_data === null) $all_data = array();
 
         $array_to_store = array(
-            'userName' => $_POST["userName"],
-            'userEmail' => $_POST["userEmail"],
+            'userName' => $_SESSION['username'],//$_POST["userName"],
+            'userEmail' => $_SESSION["email"],
             'messageTitle' => $_POST["messageTitle"],
             'content' => $_POST["content"],
             'time' => date("y-m-d-H-i-s", time())

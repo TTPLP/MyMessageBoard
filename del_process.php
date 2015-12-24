@@ -6,21 +6,19 @@
     if($_POST){
         $del = $_POST['del'];
         foreach ($del as $key => $value) {
-            unset($all_data[$value]);
-            // $del_path = "message/" . $value;
-            // if(file_exists($del_path)){
-            //     unlink($del_path);
-            // }
+            if($all_data[$value] !== null){
+                unset($all_data[$value]);
+            }
         }
         Message::storeJSON("data.json", $all_data);
     }
 
     if($_GET){
-        $del = $_GET['del'];
-        $del_path = "message/" . $del;
-        if(file_exists($del_path)){
-            unlink($del_path);
+        $del_index = $_GET['del'];
+        if($all_data[$del_index] !== null){
+            unset($all_data[$del_index]);
         }
+        Message::storeJSON("data.json", $all_data);
     }
 
     header('Location:message_board.php');

@@ -13,38 +13,26 @@
 </head>
 <body>
     您好：<?=$_SESSION['username']?> <br>
-    歡迎使用
-
+    歡迎使用 <br>
+    <a href="logout.php">登出</a>
 
     <hr />
 
     <p align="center"><label>留言列表</label></p>
     <p>
         <?php
-            if(file_exists("data.json") === false){
-                $fh = fopen("data.json", 'w');
-                fclose($fh);
-            }
-
-            $fh = fopen('data.json', 'r');
-            $data = "";
-            $tmp = "";
-            while (($tmp = fgets($fh, 4096)) !== false) {
-                $data .= $tmp;
-            }
-
-            $tmp_data = json_decode($data);
-
-            fclose($fh);
+            $tmp_data = Message::analyze("data.json");
 
             if($tmp_data != null){ ?>
                 <form action="del_process.php" method="post">
                     <?php foreach ($tmp_data as $key => $value) {?>
                         <li>
-                            <input type="checkbox" name="del[]" value="<?= $key?>">
-                            <label> 主題：<a href="show.php?index=<?= $key?>"><?= $value->messageTitle?> </a></label>
-                            留言人：<?= $value->userName?>
-                            信箱：<?= $value->userEmail?>
+                            <?php if($_SESSION['username'] === $value['userName']){?>
+                                <input type="checkbox" name="del[]" value="<?= $key?>" />
+                            <?php }?>
+                            <label> 主題：<a href="show.php?index=<?= $key?>"><?= $value[messageTitle]?> </a></label>
+                            留言人：<?= $value['userName']?>
+                            信箱：<?= $value[userEmail]?>
                         </li>
                     <?php }?>
                     <br>
