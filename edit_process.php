@@ -13,7 +13,7 @@
 
             $all_data[$key]['content'] = $content;
             $all_data[$key]['messageTitle'] = $messageTitle;
-            $all_data[$key]['date'] = date("y-m-d-H-i-s", time());
+            $all_data[$key]['time'] = date("y-m-d-H-i-s", time());
         }
     }
 

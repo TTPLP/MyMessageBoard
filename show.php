@@ -61,7 +61,7 @@
     </p>
     <p>
         <?php
-            echo "時間: $message[date]";
+            echo "時間: $message[time]";
         ?>
     </p>
     <p>
