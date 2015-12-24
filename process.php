@@ -31,6 +31,6 @@
         // $fh = fopen($file_save_name, 'w');
         // fputcsv($fh, $post_data);
 
-        header('Location:index.php');
+        header('Location:message_board.php');
         exit;
     }

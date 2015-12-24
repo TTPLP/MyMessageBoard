@@ -23,6 +23,6 @@
         }
     }
 
-    header('Location:index.php');
+    header('Location:message_board.php');
     exit;
 ?>

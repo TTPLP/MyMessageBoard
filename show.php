@@ -1,32 +1,40 @@
 <?php
+    session_start();
     include 'message.php';
-    $message = new Message;
 
-    $fh = fopen('data.json', 'r');
+    $all_data = Message::analyze("data.json");
 
-    $data_str = "";
-    $tmp = "";
+    $key = $_GET['index'];
 
-    while (($tmp = fgets($fh)) !== null) {
-        $data_str .= $tmp;
-    }
+    $message = $all_data[$key];
 
-    fclose($fh);
+    // $message = new Message("", "", "", "", "", "");
 
-    $filename = $_GET['filename'];
-    $path = 'message/' . $filename;
-    if($file = fopen($path, 'r+') != null){
-        $message->filename = $filename;
-        while (($data = fgetcsv($file, 1000)) != null) {
-            if(count($data) >= 4){
-                $message->setUserName($date[0]);
-                $message->setUserEmail($date[1]);
-                $message->setMessageTitle($data[2]);
-                $message->setContent($data[3]);
-            }
-        }
-        fclose($file);
-    }
+    // $fh = fopen('data.json', 'r');
+
+    // $data_str = "";
+    // $tmp = "";
+
+    // while (($tmp = fgets($fh)) !== null) {
+    //     $data_str .= $tmp;
+    // }
+
+    // fclose($fh);
+
+    // $filename = $_GET['filename'];
+    // $path = 'message/' . $filename;
+    // if($file = fopen($path, 'r+') != null){
+    //     $message->filename = $filename;
+    //     while (($data = fgetcsv($file, 1000)) != null) {
+    //         if(count($data) >= 4){
+    //             $message->setUserName($date[0]);
+    //             $message->setUserEmail($date[1]);
+    //             $message->setMessageTitle($data[2]);
+    //             $message->setContent($data[3]);
+    //         }
+    //     }
+    //     fclose($file);
+    // }
 ?>
 
 <!DOCTYPE html>
@@ -38,22 +46,22 @@
 <body>
     <p>
         <?php
-            echo "留言人：$message->username";
+            echo "留言人：$message->userName";
         ?>
     </p>
     <p>
         <?php
-            echo "email: $message->useremail";
+            echo "email: $message->userEmail";
         ?>
     </p>
     <p>
         <?php
-            echo "標題: $message->messagetitle";
+            echo "標題: $message->messageTitle";
         ?>
     </p>
     <p>
         <?php
-            echo "內容: <p>$message->getContent()</p>";
+            echo "內容: <p>$message->content</p>";
         ?>
     </p>
     <p>
