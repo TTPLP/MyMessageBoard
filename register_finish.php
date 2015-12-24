@@ -9,32 +9,47 @@ $pw2 = $_POST['pw2'];
 $telephone = $_POST['telephone'];
 $address = $_POST['address'];
 $other = $_POST['other'];
+$email = $_POST['email'];
 
 //判斷帳號密碼是否為空值
 //確認密碼輸入的正確性
-if($id != null && $pw != null && $pw2 != null && $pw == $pw2)
+if($id != null && $pw != null && $pw2 != null)
 {
         $sql = "SELECT * FROM member_table where username = '$id'";
         $result = mysql_query($sql);
         $row = @mysql_fetch_array($result);
-        echo $row['username'];
 
-        //新增資料進資料庫語法
-        $sql = "insert into member_table (username, password, telephone, address, other) values ('$id', '$pw', '$telephone', '$address', '$other')";
-        if(mysql_query($sql))
-        {
-                echo '新增成功!';
-                echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
-        }
-        else
-        {
-                echo '新增失敗!';
-                echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
+        if($row['username'] == $id){
+            echo "該帳號已有使用者使用，請重新填寫資料！";
+            echo '<meta http-equiv=REFRESH CONTENT=3;url=register.php>';
+        }else if(strlen($id) < 6){
+            echo "您的帳號長度小於 6 字元，請重新填寫資料！";
+            echo '<meta http-equiv=REFRESH CONTENT=3;url=register.php>';
+        }else if(strlen($pw) < 6){
+            echo "您的密碼長度小於 6 字元，請重新填寫資料！";
+            echo '<meta http-equiv=REFRESH CONTENT=3;url=register.php>';
+        }else if($pw !== $pw2){
+            echo "您重新輸入的密碼有誤，請重新填寫資料！";
+            echo '<meta http-equiv=REFRESH CONTENT=3;url=register.php>';
+        }else{
+            //新增資料進資料庫語法
+            $sql = "insert into member_table (username, password, telephone, address, other, email)" .
+                    " values ('$id', '$pw', '$telephone', '$address', '$other', '$email')";
+            if(mysql_query($sql))
+            {
+                    echo '新增成功!';
+                    echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
+            }
+            else
+            {
+                    echo '新增失敗!';
+                    echo '<meta http-equiv=REFRESH CONTENT=2;url=register.php>';
+            }
         }
 }
 else
 {
-        echo '您無權限觀看此頁面!';
-        echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
+        echo '您有欄位尚未填寫!';
+        echo '<meta http-equiv=REFRESH CONTENT=2;url=register.php>';
 }
 ?>

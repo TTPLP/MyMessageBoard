@@ -89,8 +89,10 @@
     <p align="center"><label>新增留言</label></p>
     <form method='post' action="process.php">
         <p>
-            留言人：<input type="text" name="userName" size="10"><br>
-            Email：<input type="text" name="userEmail" size="20"><br>
+            留言人：<?=$_SESSION['username']?><br>
+            <!-- <input type="text" name="userName" size="10"><br> -->
+            Email：<?=$_SESSION['email']?><br>
+            <!-- <input type="text" name="userEmail" size="20"><br> -->
             留言主題：<input type="text" name="messageTitle" size="20"> <br>
             留言： <br>
             <textarea name="content" cols="60" rows="30"></textarea><br>

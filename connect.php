@@ -11,13 +11,15 @@
     //搜尋資料庫資料
     $sql = "SELECT * FROM member_table where username = '$id'";
     $result = mysql_query($sql);
-    $row = @mysql_fetch_row($result);
+    // $row = @mysql_fetch_row($result);
 
+    $row = mysql_fetch_array($result);
     //判斷帳號與密碼是否為空白
     //以及MySQL資料庫裡是否有這個會員
-    if($id != null && $pw != null && $row[1] == $id && $row[2] == $pw){
+    if($id != null && $pw != null && $row['username'] == $id && $row['password'] == $pw){
         //將帳號寫入session，方便驗證使用者身份
         $_SESSION['username'] = $id;
+        $_SESSION['email'] = $row['email'];
         echo '登入成功!';
         echo '<meta http-equiv=REFRESH CONTENT=1;url=message_board.php>';
     }else{
