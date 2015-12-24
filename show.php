@@ -41,7 +41,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title><?echo $message->messagetitle?></title>
+    <title>留言：<?=$message[messageTitle]?></title>
 </head>
 <body>
     <p>
@@ -61,13 +61,19 @@
     </p>
     <p>
         <?php
-            echo "內容: <p>$message[content]</p>";
+            echo "時間: $message[date]";
         ?>
     </p>
     <p>
-        <a href="message_board.php">返回</a>
+        <?php
+            echo "內容: <pre>$message[content]</pre>";
+        ?>
+    </p>
+    <p>
+        <a href="message_board.php">返回</a>&nbsp;&nbsp;
         <?php if($_SESSION['username'] === $message['userName']){?>
-            <a href="del_process.php?del=<?=$key?>">刪除</a>
+            <a href="del_process.php?del=<?=$key?>">刪除</a>&nbsp;&nbsp;
+            <a href="message_edit.php?key=<?=$key?>">修改</a>
         <?php }?>
     </p>
 </body>
