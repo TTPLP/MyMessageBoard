@@ -2,7 +2,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <html>
 <head>
-    <title>帳號登錄</title>
+    <title>帳號登入</title>
 </head>
 <body>
     <form name="form" method="post" action="connect.php">
@@ -13,5 +13,3 @@
     </form>
 </body>
 </html>
-
-
