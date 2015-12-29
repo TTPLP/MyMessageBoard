@@ -1,8 +1,8 @@
 <?php
-    $host_name = 'localhost';
+    $host_name = 'your database mysql sever name';
 
-    $db_user = 'root';
+    $db_user = 'the user to mysql server';
 
-    $db_password = 'eric75408';
+    $db_password = 'password of user';
 
-    $db_name = 'my_db';
+    $db_name = 'database name';
