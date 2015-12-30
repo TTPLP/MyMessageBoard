@@ -35,8 +35,7 @@
 
             }else{
 
-                $sql = "insert into member_tb (username, password, email)" .
-                        " values ('$id', '$pw', '$email')";
+                $sql = "INSERT INTO member_tb (username, password, email) VALUES ('$id', '$pw', '$email')";
                 $stmt = $db->query($sql);
                 $result = $stmt->rowCount();
 
@@ -49,7 +48,7 @@
                 }
 
             }
-        } catch (PDOException $e) {
+        } catch (PDOException $e) { //when error occor...
             echo $e->getMessage();
         }
     } else {
