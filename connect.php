@@ -18,7 +18,7 @@
         $_SESSION['username'] = $id;
         $_SESSION['email'] = $row['email'];
         echo '登入成功!';
-        echo '<meta http-equiv=REFRESH CONTENT=1;url=message_board.php>';
+        echo '<meta http-equiv=REFRESH CONTENT=1;url=prepare_data.php>';
     }else{
         echo '登入失敗!';
         echo '<meta http-equiv=REFRESH CONTENT=1;url=index.php>';

@@ -1,7 +1,5 @@
 <?php
-    include('message.php');
 
-    $all_data = Message::analyze("data.json");
 
     if($_POST){
         $del = $_POST['del'];
@@ -10,8 +8,10 @@
                 unset($all_data[$value]);
             }
         }
-        Message::storeJSON("data.json", $all_data);
     }
+
+    $sql = "DELETE FROM message_tb "
+    . "WHERE title='$_SESSION[]'";
 
     if($_GET){
         $del_index = $_GET['del'];
@@ -23,4 +23,10 @@
 
     header('Location:message_board.php');
     exit;
+
+
+    function deleteDataAtIndex($index){
+        
+    }
 ?>
+

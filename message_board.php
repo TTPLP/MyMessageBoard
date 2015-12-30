@@ -1,9 +1,9 @@
 <?php
     session_start();
-    include 'message.php';
-    ini_set('date.timezone','Asia/Taipei'); //php.ini
-    //
-?>
+    if($_SESSION['username'] == null){
+        echo "您沒有登入！";
+        echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
+    }else{ ?>
 
 <!DOCTYPE html>
 <html>
@@ -21,55 +21,25 @@
     <p align="center"><label>留言列表</label></p>
     <p>
         <?php
-            $tmp_data = Message::analyze("data.json");
-
-            if($tmp_data != null){ ?>
+            if($_SESSION['message'] != null){ ?>
                 <form action="del_process.php" method="post">
-                    <?php foreach ($tmp_data as $key => $value) {?>
+                    <?php foreach ($_SESSION['message'] as $key => $value) {?>
                         <li>
-                            <?php if($_SESSION['username'] === $value['userName']){?>
+                            <?php if($_SESSION['username'] === $value['username']){?>
                                 <input type="checkbox" name="del[]" value="<?= $key?>" />
                             <?php }?>
-                            <label> 主題：<a href="show.php?index=<?= $key?>"><?= $value[messageTitle]?> </a></label>
-                            留言人：<?= $value['userName']?>
-                            信箱：<?= $value[userEmail]?>
+                            <label> 主題：<a href="show.php?index=<?= $key?>"><?= $value['title']?> </a></label>
+                            留言人：<?= $value['username']?>
+                            信箱：<?= $value['email']?>
                         </li>
                     <?php }?>
                     <br>
                     <input type="submit" value="刪除">
                 </form>
-
         <?php } else {
                 echo "目前無任何留言！";
             }
         ?>
-        <?php
-            // while ($file = readdir($dir)) {
-
-
-            //     if($this_file_name = strstr($file, '.csv', true)){
-            //         $tmp_path = "message/" . $this_file_name . '.csv';
-            //         if($file = fopen($tmp_path, 'r+')){
-            //             $tmp_message = new Message("", "", "", "", "", "");
-            //             //
-            //             $tmp_message->setFileName($this_file_name . '.csv');
-            //             //
-            //             while (($data = fgetcsv($file, 1000)) != null) {
-            //                 if(count($data) >= 4){
-            //                     $tmp_message->setUserName($date[0]);
-            //                     $tmp_message->setUserEmail($data[1]);
-            //                     $tmp_message->setMessageTitle($date[2]);
-            //                 }
-            //             }
-            //             array_push($MESSAGES, $tmp_message);
-            //             fclose($file);
-            //         }
-            //     }
-            // }
-            // closedir($dir);
-        ?>
-
-
     </p>
 
     <hr />
@@ -89,3 +59,5 @@
     </form>
 </body>
 </html>
+
+<?php }
