@@ -1,9 +1,6 @@
 <?php
-    session_start();
-    if($_SESSION['username'] == null){
-        echo "您沒有登入！";
-        echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
-    }else{ ?>
+    include("login_check.ini.php");
+?>
 
 <!DOCTYPE html>
 <html>

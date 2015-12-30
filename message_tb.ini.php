@@ -10,5 +10,4 @@
                 ."time VARCHAR(50) NOT NULL"
                 .")";
 
-
     $db->exec($sql);

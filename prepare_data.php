@@ -1,17 +1,11 @@
 <?php
-    session_start();
-    include("message_tb.ini.php");
+    include("login_check.ini.php");     //checking if the user login or not
+    include("message_tb.ini.php");      //initialize message_tb and get database object
 
-    if($_SESSION['username'] == null) {
-        echo "您沒有登入！";
-        echo '<meta http-equiv=REFRESH CONTENT=2;url=index.php>';
-        die();
-    }
+    $result = $db->query("SELECT * FROM message_tb");   //query the resukt
 
-    $result = $db->query("SELECT * FROM message_tb");
+    $MESSAGES = $result->fetchAll();    //get all result with array type
 
-    $MESSAGES = $result->fetchAll();
+    $_SESSION['message'] = $MESSAGES;   //store result for next page using
 
-    $_SESSION['message'] = $MESSAGES;
-
-    echo '<meta http-equiv=REFRESH CONTENT=2;url=message_board.php>';
+    //echo "<meta http-equiv='refresh' content=0;url='message_board.php'>";   //change page with html header
