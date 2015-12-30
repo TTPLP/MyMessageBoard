@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <html>
 <head>
     <title>帳號登入</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
     <form name="form" method="post" action="connect.php">

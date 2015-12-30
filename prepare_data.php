@@ -8,4 +8,4 @@
 
     $_SESSION['message'] = $MESSAGES;   //store result for next page using
 
-    //echo "<meta http-equiv='refresh' content=0;url='message_board.php'>";   //change page with html header
+    echo "<meta http-equiv='refresh' content=0;url='message_board.php'>";   //change page with html header
