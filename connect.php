@@ -16,7 +16,7 @@
             $_SESSION['email'] = $row['email']; //store email because id is correct
 
             echo '登入成功!';
-            echo '<meta http-equiv=REFRESH CONTENT=1;url=prepare_data.php>';    //change page with html header
+            echo '<meta http-equiv=REFRESH CONTENT=1;url=message_board.php>';    //change page with html header
         }else{
             echo '登入失敗!';
             echo '<meta http-equiv=REFRESH CONTENT=1;url=index.php>';   //change page with html header

@@ -1,5 +1,6 @@
 <?php
     include("login_check.ini.php");
+    include("prepare_data.php");
 ?>
 <html>
 <head>
@@ -31,7 +32,8 @@
                     <br>
                     <input type="submit" value="刪除">
                 </form>
-        <?php } else {
+        <?php
+            } else {
                 echo "目前無任何留言！";
             }
         ?>
@@ -43,10 +45,11 @@
     <form method='post' action="message_add_process.php">
         <p>
             留言人：<?=$_SESSION['username']?><br>
-            <!-- <input type="text" name="userName" size="10"><br> -->
+
             Email：<?=$_SESSION['email']?><br>
-            <!-- <input type="text" name="userEmail" size="20"><br> -->
+
             留言主題：<input type="text" name="title" size="20"> <br>
+
             留言： <br>
             <textarea name="content" cols="60" rows="30"></textarea><br>
             <input type="submit" value="送出">

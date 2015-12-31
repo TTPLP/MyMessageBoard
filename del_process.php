@@ -1,17 +1,30 @@
 <?php
+    include("login_check.ini.php");
+    include("message_tb.ini.php");
 
+    $MESSAGES = $_SESSION['message'];
 
     if($_POST){
         $del = $_POST['del'];
+
+
         foreach ($del as $key => $value) {
-            if($all_data[$value] !== null){
-                unset($all_data[$value]);
+            $message_to_delete = $MESSAGES[$value];
+
+                $username = $message_to_delete['username'];
+
+            if($_SESSION['username'] != $username){
+
+                $title = $message_to_delete['title'];
+
+                $time = $message_to_delete['time'];
+
+                $sql  = "DELETE FROM message_tb WHERE username='$username' AND title='$title' AND time='$time'";
+
+                $db->query($sql);
             }
         }
     }
-
-    $sql = "DELETE FROM message_tb "
-    . "WHERE title='$_SESSION[]'";
 
     if($_GET){
         $del_index = $_GET['del'];
@@ -23,10 +36,5 @@
 
     header('Location:message_board.php');
     exit;
-
-
-    function deleteDataAtIndex($index){
-
-    }
 ?>
 
