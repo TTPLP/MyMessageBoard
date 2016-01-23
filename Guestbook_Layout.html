@@ -4,7 +4,9 @@
 </head>
 <body>
     <p>
-        您好：abc
+        您好：abc <br />
+        歡迎使用！ <a href="">登出</a>
+        <hr />
     </p>
 
     <p>
@@ -14,7 +16,7 @@
             <li>
                 <input type="checkbox" name="del[]" value="1"/>
                 <label>
-                    主題：<a href="content.php?index=1">主題1</a>
+                    主題：<a href="">主題1</a>
                     留言人：abc
                     信箱：abc@haha.com
                 </label>
@@ -22,11 +24,25 @@
             <li>
                 <input type="checkbox" name="del[]" value="1"/>
                 <label>
-                    主題：<a href="content.php?index=2">主題2</a>
+                    主題：<a href="">主題2</a>
                     留言人：acd
                     信箱：acd@kuku.com
                 </label>
             </li>
+        </form>
+
+        <hr />
+    </p>
+
+    <p>
+        <p align="center"><label>新增留言</label></p>
+        <form>
+            留言人：abc <br />
+            信箱：abc@haha.com <br />
+            留言主題：<input type="text" name="title" size="20" /> <br />
+            留言內容：<br />
+            <textarea name="content" cols="60" rows="30"></textarea> <br />
+            <input type="submit" value="送出" />
         </form>
     </p>
 </body>
