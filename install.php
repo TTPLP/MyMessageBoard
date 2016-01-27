@@ -2,9 +2,9 @@
     include("database_config.php");
 
     try {
-        $dbh = new PDO("mysql:host=$server_name;dbname=$database_name", $user_name, $passeword);
+        $dbh = new PDO("mysql:host=$server_name;dbname=$database_name", $username, $password);
     } catch (Exception $e) {
-        $dbh = new PDO("mysql:host=$server_name", $user_name, $passeword);
+        $dbh = new PDO("mysql:host=$server_name", $username, $password);
         $dbh->query("CREATE DATABASE IF NOT EXISTS $database_name CHARACTER SET = 'utf8'");
         echo $e->getMessage();
     }
@@ -36,7 +36,7 @@
         delete_at TIMESTAMP,
         PRIMARY KEY (id),
         unique (email),
-        FOREIGN KEY (primary_mail) REFERENCES mail (id)
+        FOREIGN KEY (primary_mail) REFERENCES member (id)
     );";
 
     $dbh->query($sql);
@@ -92,4 +92,12 @@
         }
         fclose($handle);
     }
-?>
+
+    $insert_message_stmt = $dbh->prepare("insert into message (user_id, title, content, create_at, update_at, delete_at) values (:user_id, :title, :content, :create_at, :update_at, :delete_at)");
+
+    if (($handle = fopen("message.csv", "r")) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            $insert_member_stmt->execute(array(":user_id" => $data[1], ":title" => $data[2], ":content" => $data[3], ":create_at" => $data[4], ":update_at" => $data[5], ":delete_at" => $data[6]));
+        }
+        fclose($handle);
+    }
