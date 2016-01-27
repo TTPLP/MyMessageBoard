@@ -34,7 +34,7 @@
         user_id BIGINT NOT NULL,
         email VARCHAR(64) NOT NULL,
         delete_at TIMESTAMP,
-        primary BOOLEAN NOT NULL,
+        primary_mail BOOLEAN NOT NULL,
         PRIMARY KEY (id),
         unique (email)
     );";
