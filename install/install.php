@@ -1,5 +1,5 @@
 <?php
-    include("database_config.php");
+    include("../database_config.php");
 
     try {
         $dbh = new PDO("mysql:host=$server_name;dbname=$database_name", $username, $password);
@@ -34,9 +34,9 @@
         user_id BIGINT NOT NULL,
         email VARCHAR(64) NOT NULL,
         delete_at TIMESTAMP,
+        primary BOOLEAN NOT NULL,
         PRIMARY KEY (id),
-        unique (email),
-        FOREIGN KEY (primary_mail) REFERENCES member (id)
+        unique (email)
     );";
 
     $dbh->query($sql);
@@ -96,6 +96,15 @@
     $insert_message_stmt = $dbh->prepare("insert into message (user_id, title, content, create_at, update_at, delete_at) values (:user_id, :title, :content, :create_at, :update_at, :delete_at)");
 
     if (($handle = fopen("message.csv", "r")) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            $insert_message_stmt->execute(array(":user_id" => $data[1], ":title" => $data[2], ":content" => $data[3], ":create_at" => $data[4], ":update_at" => $data[5], ":delete_at" => $data[6]));
+        }
+        fclose($handle);
+    }
+
+    $insert_responce_stmt = $dbh->prepare("insert into message (user_id, title, content, create_at, update_at, delete_at) values (:user_id, :title, :content, :create_at, :update_at, :delete_at)");
+
+    if (($handle = fopen("response.csv", "r")) !== FALSE) {
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             $insert_member_stmt->execute(array(":user_id" => $data[1], ":title" => $data[2], ":content" => $data[3], ":create_at" => $data[4], ":update_at" => $data[5], ":delete_at" => $data[6]));
         }
