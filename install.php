@@ -9,7 +9,6 @@
         echo $e->getMessage();
     }
 
-
     //////////Table prepare
 
     $dbh->query("USE $database_name;");
@@ -93,3 +92,4 @@
         }
         fclose($handle);
     }
+?>
