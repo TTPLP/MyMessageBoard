@@ -9,35 +9,81 @@
         echo $e->getMessage();
     }
 
+
+    //////////Table prepare
+
     $dbh->query("USE $database_name;");
 
     $sql = "CREATE TABLE IF NOT EXISTS member
     (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    username VARCHAR(20) NOT NULL,
-    password VARCHAR(20) NOT NULL,
-    create_at TIMESTAMP NOT NULL,
-    update_at TIMESTAMP,
-    delete_at TIMESTAMP,
-    primary_mail BIGINT NOT NULL,
-    PRIMARY KEY (id),
-    unique (username)
+        id BIGINT NOT NULL AUTO_INCREMENT,
+        username VARCHAR(20) NOT NULL,
+        password VARCHAR(20) NOT NULL,
+        create_at TIMESTAMP NOT NULL,
+        update_at TIMESTAMP,
+        delete_at TIMESTAMP,
+        primary_mail BIGINT NOT NULL,
+        PRIMARY KEY (id),
+        unique (username)
     );";
-  // -- ,FOREIGN KEY (primary_mail) REFERENCES mail (id)
 
     $dbh->query($sql);
 
     $sql = "CREATE TABLE IF NOT EXISTS mail
     (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    user_id BIGINT NOT NULL,
-    email BIGINT NOT NULL,
-    delete_at TIMESTAMP,
-    PRIMARY KEY (id)
+        id BIGINT NOT NULL AUTO_INCREMENT,
+        user_id BIGINT NOT NULL,
+        email VARCHAR(64) NOT NULL,
+        delete_at TIMESTAMP,
+        PRIMARY KEY (id),
+        unique (email),
+        FOREIGN KEY (primary_mail) REFERENCES mail (id)
     );";
 
     $dbh->query($sql);
 
+    $sql = "CREATE TABLE IF NOT EXISTS message
+    (
+        id BIGINT NOT NULL AUTO_INCREMENT,
+        user_id BIGINT NOT NULL,
+        title VARCHAR(64) NOT NULL,
+        content TEXT,
+        create_at TIMESTAMP NOT NULL,
+        update_at TIMESTAMP,
+        delete_at TIMESTAMP,
+        PRIMARY KEY (id),
+        FOREIGN KEY (user_id) REFERENCES member (id)
+    );";
+
+    $dbh->query($sql);
+
+    $sql = "CREATE TABLE IF NOT EXISTS response
+    (
+        id BIGINT NOT NULL AUTO_INCREMENT,
+        user_id BIGINT NOT NULL,
+        message_id BIGINT NOT NULL,
+        title VARCHAR(64) NOT NULL,
+        content TEXT,
+        create_at TIMESTAMP NOT NULL,
+        update_at TIMESTAMP,
+        delete_at TIMESTAMP,
+        PRIMARY KEY (id),
+        FOREIGN KEY (user_id) REFERENCES member (id),
+        FOREIGN KEY (message_id) REFERENCES message (id)
+    );";
+
+    $dbh->query($sql);
+
+    ////////////////load intial data
+
+    $insert_mail_stmt = $dbh->prepare("insert into mail (user_id, email, delete_at) values (:user_id, :email, :delete_at)");    //prepare query
+
+    if (($handle = fopen("mail.csv", "r")) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            $insert_mail_stmt->execute(array(":user_id" => $data[1], ":email" => $data[2], ":delete_at" => $data[3]));
+        }
+        fclose($handle);
+    }
 
     $insert_member_stmt = $dbh->prepare("insert into member (username, password, create_at, update_at, delete_at, primary_mail) values (:username, :password, :create_at, :update_at, :delete_at, :primary_mail)");
 
