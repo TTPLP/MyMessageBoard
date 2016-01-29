@@ -1,17 +1,19 @@
 <?php
     include("../database_config.php");
 
-    // try {
-    //     $dbh = new PDO("mysql:host=$server_name;dbname=$database_name", $username, $password);
-    // } catch (Exception $e) {
-    //     $dbh = new PDO("mysql:host=$server_name", $username, $password);
-    //     $dbh->query("CREATE DATABASE IF NOT EXISTS $database_name CHARACTER SET = 'utf8'");
-    //     echo $e->getMessage();
-    // }
+    try {
+        $dbh = new PDO("mysql:host=$server_name;dbname=$database_name", $username, $password);
+    } catch (Exception $e) {
+        $dbh = new PDO("mysql:host=$server_name", $username, $password);
+        $dbh->query("CREATE DATABASE IF NOT EXISTS $database_name CHARACTER SET = 'utf8'");
+        echo $e->getMessage();
+    }
 
-    //////////Table prepare
+    ////////Table prepare
 
-    // $dbh->query("USE $database_name;");
+    $dbh->query("USE $database_name;");
+    
+    
 
     $sql = "CREATE TABLE IF NOT EXISTS member
     (

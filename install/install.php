@@ -5,9 +5,10 @@
     $db = new Database\Database();
 
     //$db = new Database\Member\Member();
-
-
-    $db->createBasicTable("mytest2", ["id" => "BIGINT UNSIGNE NOT NULL", "name" => "VARCHAR(16)", "sex" => "BOOLEAN"], "id");
-
+    //
+    $db->createMemberTable();
+    $db->createMailTable();
+    $db->createMessageTable();
+    $db->createResponseTable();
 
 ?>
