@@ -19,9 +19,5 @@
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
         require $fileName;
-
-        //if($namespace == "Database") require __DIR__ . "/Database/database.php";
-
-        //echo "$namespace";
     });
 ?>

@@ -82,9 +82,10 @@
 
         function insertIntoTable_batch($tableName, $datas, $datafields)
         {
-            $sql = "INSERT INTO " . $tableName . " (";
+            $sql = "INSERT INTO " . $tableName . " (" . implode($datafields) , 
 
             //INSERT INTO table (...., ...., .....
+
 
             foreach ($datas[0] as $key => $value) { //get the column
                 $sql .= $key . ",";
