@@ -17,7 +17,29 @@
         function __construct($message){
             $this->message = hexdec(unpack("H*", $message)[1]);
 
-            $this->length = strlen(decbin($this->message));
+            $this->length = $this->getLength($this->message);
+
+            $hash = $this->message * 2 + 1; //....123464abc'100000000000....'
+
+            $delta = 1023 - $this->length;
+
+
+            $hash *= pow(2, $delta);
+
+            var_dump($hash);
+
+            var_dump($this->getLength($hash));
+
+
+        }
+
+        function getLength($x){
+            $count = 0;
+            while ($x > 0) {
+                $count++;
+                $x = $x >> 1;
+            }
+            return $count;
         }
 
         function CH($x, $y, $z){
