@@ -9,4 +9,11 @@
     $db->createMessageTable();
     $db->createResponseTable();
 
+    $hash = new Database\Hash("abc");
+
+    var_dump($hash->rotateRight(16, 2));
+
+
+    var_dump(0x0000000000000004);
+
 ?>

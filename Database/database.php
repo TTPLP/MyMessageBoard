@@ -82,7 +82,7 @@
 
         function insertIntoTable_batch($tableName, $datas, $datafields)
         {
-            $sql = "INSERT INTO " . $tableName . " (" . implode($datafields) , 
+            $sql = "INSERT INTO " . $tableName . " (" . implode($datafields);
 
             //INSERT INTO table (...., ...., .....
 
@@ -118,7 +118,7 @@
 
             //INSERT INTO table (.....) values (.....),(.....),(.....),(....
 
-            $this->executeQueryWithPrepare("insertIntoTable_batch()", $sql);
+            //$this->executeQueryWithPrepare("insertIntoTable_batch()", $sql);
         }
 
         function addForeignKeyIntoTable($tableName, $colName, $refTable, $refCol)
