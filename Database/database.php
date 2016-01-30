@@ -14,6 +14,7 @@
                 $this->dbh = new PDO("mysql:host=$server_name;dbname=$database_name", $username, $password);
             } catch (Exception $e) {
                 echo $e->getMessage();
+                exit();
             }
         }
 
@@ -52,13 +53,59 @@
 
             $sql .= ");"; //end
 
-            $stmt = $this->dbh->prepare($sql);
+            $this->executeQueryWithPrepare("createBasicTable()", $sql);
+        }
 
-            $stmt->execute();
+        function insertIntoTable_single($tableName, $data){
+            $sql = "INSERT INTO " . $tableName . " (";      //
 
-            if($stmt->errorInfo()[0] !== "00000"){  //if error occur?
-                echo $stmt->errorInfo()[2];
+            $values = " VALUES (";
+
+            foreach ($data as $colName => $value) {
+                $sql .= $colName . ",";
+                $values .= $value . ",";
             }
+
+            $sql = rtrim($sql, ","). ") ";
+            $sql .= rtrim($values, ",") . ")";
+            echo "$sql";
+        }
+
+        function insertIntoTable_batch($tableName, $datas){
+            $sql = "INSERT INTO " . $tableName . " (";
+
+            //INSERT INTO table (...., ...., .....
+
+            foreach ($datas[0] as $key => $value) { //get the column
+                $sql .= $key . ",";
+            }
+
+            $sql = rtrim($sql, ',');
+
+            $sql .= ") VALUES";
+
+            //....) VALUES
+
+            foreach ($datas as $index => $data) {
+                $sql .= "(";
+
+                //....) VALUES (...., ....
+
+                foreach ($data as $colName => $value) {
+                    $sql .= "\"" . $value . "\",";
+                }
+
+                $sql = rtrim($sql, ",");
+                $sql .= "),";
+
+                //....),(...., ....
+            }
+
+            $sql = rtrim($sql, ",");
+
+            //INSERT INTO table (.....) values (.....),(.....),(.....),(....
+
+            $this->executeQueryWithPrepare("insertIntoTable_batch()", $sql);
         }
 
         function addForeignKeyIntoTable($tableName, $colName, $refTable, $refCol){
@@ -75,7 +122,8 @@
                 "password" => "VARCHAR(64) NOT NULL",
                 "create_at" => "TIMESTAMP",
                 "update_at" => "TIMESTAMP",
-                "delete_at" => "TIMESTAMP"];
+                "delete_at" => "TIMESTAMP"
+                ];
             $primaryCol = "id";
             $foreignKeydata = null;
 
@@ -87,7 +135,7 @@
             $colArr_Type = [
                 "id" => "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
                 "user_id" => "BIGINT UNSIGNED NOT NULL",
-                "email" => "VARCHAR(64) NOT NULL",
+                "email" => "VARCHAR(64) NOT NULL UNIQUE",
                 "delete_at" => "TIMESTAMP",
                 "prim" => "BOOLEAN",
                 ];
@@ -138,5 +186,27 @@
 
             $this->createBasicTable($tableName, $colArr_Type, $primaryCol, $foreignKeydata);
         }
+
+        function executeQueryWithPrepare($from, $sql){
+            $stmt = $this->dbh->prepare($sql);      //prepare sql query
+
+            $stmt->execute();                       //execute query
+
+            if($stmt->errorInfo()[0] !== "00000"){  //if error occur?
+                echo $from . ": " . $stmt->errorInfo()[0] . ":(" . $stmt->errorInfo()[1] . ") " . $stmt->errorInfo()[2] . "\n";
+            }
+        }
+
+        // function loadDataToTableFromCSV($tableName, $filename){
+        //     $datas = [];
+        //     if (($handle = fopen($filename, "r")) !== FALSE) {
+        //         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+        //             $data = [];
+        //             $datas[]
+        //             $insert_mail_stmt->execute(array(":user_id" => $data[1], ":email" => $data[2], ":delete_at" => $data[3]));
+        //         }
+        //         fclose($handle);
+        //     }
+        // }
     }
 ?>

@@ -12,8 +12,7 @@
     ////////Table prepare
 
     $dbh->query("USE $database_name;");
-    
-    
+
 
     $sql = "CREATE TABLE IF NOT EXISTS member
     (
@@ -113,3 +112,4 @@
         }
         fclose($handle);
     }
+

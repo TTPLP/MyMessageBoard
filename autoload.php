@@ -17,9 +17,13 @@
 
         //echo $fileName . "\n";
 
-        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.class.php';
+        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-        if($namespace == "Database") require __DIR__ . "/Database/database.class.php"; //require $fileName;
+        echo $fileName . "\n";
+
+        require $fileName;
+
+        //if($namespace == "Database") require __DIR__ . "/Database/database.php"; 
 
         //echo "$namespace";
     });
