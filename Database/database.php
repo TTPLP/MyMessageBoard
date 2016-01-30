@@ -7,61 +7,70 @@
 
         public $dbh;
 
-        function __construct(){
+        function __construct()
+        {
             require __DIR__ . "/database_config.php";
 
-            try {
+            try
+            {
                 $this->dbh = new PDO("mysql:host=$server_name;dbname=$database_name", $username, $password);
-            } catch (Exception $e) {
+            }
+            catch (Exception $e)
+            {
                 echo $e->getMessage();
                 exit();
             }
         }
 
-        function createBasicTable($tableName, $colArr_Type, $primaryCol, $foreignKeydata){
+        function createBasicTable($tableName, $COLUMNS)
+        {
 
-            $isPrimary = false;
+            $hasPrimary = false;
 
             $sql = "CREATE TABLE IF NOT EXISTS " . $tableName ." (";
-            foreach ($colArr_Type as $colName => $colType) {
+            foreach ($COLUMNS as $column)
+            {
+                $sql .=  $column->field . " " . $column->type . " ";
 
-                $sql .= " ";
-
-                if($colName === $primaryCol){
-                    $sql .= $colName . " BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,";
-                    $isPrimary = true;
-                }else{
-                    $sql .= ($colName . " " . $colType . ",");
+                if($column->extra !== false){
+                    $sql .= $column->extra . " ";
                 }
-            }
 
-            if($isPrimary === false){
-                throw new Exception("Database: Create Table: You did't give correct 'primaryCol'", 1);
-            }
+                if($column->not_null === true){
+                    $sql .= "NOT NULL";
+                }
 
-            if($foreignKeydata !== null){
-                foreach ($foreignKeydata as $colName => $refData) {
-                    if(array_key_exists("tableName", $refData) && array_key_exists("colName", $refData)){
-                        $sql .= " FOREIGN KEY (" . $colName . ") REFERENCES " . $refData['tableName'] . " (" . $refData['colName'] . "),";
-                    }else{
-                        throw new Exception("Your 'foreignKeydata' of $tableName.", 1);
-                    }
+                $sql .= ",";
+
+                if($column->primary_key !== false){
+                    $sql .= "PRIMARY KEY (" . $column->field . "),";
+                }
+
+                if($column->foreign_key !== false){
+                    $sql .= "FOREIGN KEY (" . $column->field . ") REFERENCES " . $column->foreign_key->refTable . "(";
+                    $sql .= $column->foreign_key->refCol . "),";
+                }
+
+                if($column->unique_key !== false){
+                    $sql .= "UNIQUE KEY (" . $column->field . "),";
                 }
             }
 
             $sql = rtrim($sql, ",");
 
-            $sql .= ");"; //end
+            $sql .= ");"; //en
 
             $this->executeQueryWithPrepare("createBasicTable()", $sql);
         }
 
-        function insertIntoTable_single($tableName, $data){
+        function insertIntoTable_single($tableName, $data)
+        {
             $sql = "INSERT INTO " . $tableName . " (";      //
 
             $values = " VALUES (";
 
-            foreach ($data as $colName => $value) {
+            foreach ($data as $colName => $value)
+            {
                 $sql .= $colName . ",";
                 $values .= $value . ",";
             }
@@ -71,7 +80,8 @@
             echo "$sql";
         }
 
-        function insertIntoTable_batch($tableName, $datas){
+        function insertIntoTable_batch($tableName, $datas, $datafields)
+        {
             $sql = "INSERT INTO " . $tableName . " (";
 
             //INSERT INTO table (...., ...., .....
@@ -86,12 +96,14 @@
 
             //....) VALUES
 
-            foreach ($datas as $index => $data) {
+            foreach ($datas as $index => $data)
+            {
                 $sql .= "(";
 
                 //....) VALUES (...., ....
 
-                foreach ($data as $colName => $value) {
+                foreach ($data as $colName => $value)
+                {
                     $sql .= "\"" . $value . "\",";
                 }
 
@@ -108,86 +120,85 @@
             $this->executeQueryWithPrepare("insertIntoTable_batch()", $sql);
         }
 
-        function addForeignKeyIntoTable($tableName, $colName, $refTable, $refCol){
+        function addForeignKeyIntoTable($tableName, $colName, $refTable, $refCol)
+        {
             $sql = "ALTER TABLE " . $tableName . " ADD FOREIGN KEY (" . $colName . ") REFERENCES " . $refTable . " (" . $refCol . ");";
             echo $sql;
             $this->dbh->query($sql);
         }
 
-        function createMemberTable(){
+        function createMemberTable()
+        {
             $tableName = "member";
-            $colArr_Type = [
-                "id" => "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
-                "username" => "VARCHAR(64) NOT NULL UNIQUE",
-                "password" => "VARCHAR(64) NOT NULL",
-                "create_at" => "TIMESTAMP",
-                "update_at" => "TIMESTAMP",
-                "delete_at" => "TIMESTAMP"
-                ];
-            $primaryCol = "id";
-            $foreignKeydata = null;
 
-            $this->createBasicTable($tableName, $colArr_Type, $primaryCol, $foreignKeydata);
+            $COLUMNS = [
+                //          field       type                extra            nn     pk     uk     fk
+                new Column( "id",       "bigint unsigned",  'auto_increment',true,  true,  false, false),
+                new Column( "username", "VARCHAR(16)",      false,           true,  false, false, false),
+                new Column( "password", "VARCHAR(64)",      false,           true,  false, false, false),
+                new Column( "create_at","TIMESTAMP",        false,           true,  false, false, false),
+                new Column( "update_at","TIMESTAMP",        false,           true,  false, false, false),
+                new Column( "delete_at","DATETIME",         false,           false, false, false, false)
+            ];
+
+
+            $this->createBasicTable($tableName, $COLUMNS);
         }
 
-        function createMailTable(){
+        function createMailTable()
+        {
             $tableName = "mail";
-            $colArr_Type = [
-                "id" => "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
-                "user_id" => "BIGINT UNSIGNED NOT NULL",
-                "email" => "VARCHAR(64) NOT NULL UNIQUE",
-                "delete_at" => "TIMESTAMP",
-                "prim" => "BOOLEAN",
-                ];
-            $primaryCol = "id";
-            $foreignKeydata = [
-                "user_id" => ["tableName" => "member", "colName" => "id"]
+
+            $COLUMNS = [
+                //          field       type                extra            nn     pk     uk     fk
+                new Column( "id",       "bigint unsigned",  'auto_increment',true,  true,  false, false),
+                new Column( "user_id",  "bigint unsigned",  false,           true,  false, false, new FKData("member", "id")),
+                new Column( "email",    "VARCHAR(64)",      false,           true,  false, true,  false),
+                new Column( "delete_at","DATETIME",         false,           false, false, false, false),
+                new Column( "prim",     "BOOLEAN",          false,           true,  false, false, false)
             ];
 
-            $this->createBasicTable($tableName, $colArr_Type, $primaryCol, $foreignKeydata);
+            $this->createBasicTable($tableName, $COLUMNS);
         }
 
-        function createMessageTable(){
+        function createMessageTable()
+        {
             $tableName = "message";
-            $colArr_Type = [
-                "id" => "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
-                "user_id" => "BIGINT UNSIGNED NOT NULL",
-                "title" => "VARCHAR(64) NOT NULL",
-                "content" => "TEXT",
-                "create_at" => "TIMESTAMP",
-                "update_at" => "TIMESTAMP",
-                "delete_at" => "TIMESTAMP"
-                ];
-            $primaryCol = "id";
-            $foreignKeydata = [
-                "user_id" => ["tableName" => "member", "colName" => "id"]
+
+            $COLUMNS = [
+                //          field       type                extra            nn     pk     uk     fk
+                new Column( "id",       "bigint unsigned",  'auto_increment',true,  true,  false, false),
+                new Column( "user_id",  "bigint unsigned",  false,           true,  false, false, new FKData("member", "id")),
+                new Column( "title",    "VARCHAR(16)",      false,           true,  false, false, false),
+                new Column( "content",  "TEXT",             false,           true,  false, false, false),
+                new Column( "create_at","TIMESTAMP",        false,           true,  false, false, false),
+                new Column( "update_at","TIMESTAMP",        false,           true,  false, false, false),
+                new Column( "delete_at","DATETIME",         false,           false, false, false, false)
             ];
 
-            $this->createBasicTable($tableName, $colArr_Type, $primaryCol, $foreignKeydata);
+            $this->createBasicTable($tableName, $COLUMNS);
         }
 
-        function createResponseTable(){
+        function createResponseTable()
+        {
             $tableName = "response";
-            $colArr_Type = [
-                "id" => "BIGINT UNSIGNED NOT NULL AUTO_INCREMENT",
-                "user_id" => "BIGINT UNSIGNED NOT NULL",
-                "message_id" => "BIGINT UNSIGNED NOT NULL",
-                "title" => "VARCHAR(64) NOT NULL",
-                "content" => "TEXT",
-                "create_at" => "TIMESTAMP",
-                "update_at" => "TIMESTAMP",
-                "delete_at" => "TIMESTAMP"
-                ];
-            $primaryCol = "id";
-            $foreignKeydata = [
-                "user_id" => ["tableName" => "member", "colName" => "id"],
-                "message_id" => ["tableName" => "message", "colName" => "id"]
+            $COLUMNS = [
+                //          field       type                extra            nn     pk     uk     fk
+                new Column( "id",       "bigint unsigned",  'auto_increment',true,  true,  false, false),
+                new Column( "user_id",  "bigint unsigned",  false,           true,  false, false, new FKData("member", "id")),
+                new Column( "message_id","bigint unsigned", false,           true,  false, false, new FKData("message", "id")),
+                new Column( "title",    "VARCHAR(16)",      false,           true,  false, false, false),
+                new Column( "content",  "TEXT",             false,           true,  false, false, false),
+                new Column( "create_at","TIMESTAMP",        false,           true,  false, false, false),
+                new Column( "update_at","TIMESTAMP",        false,           true,  false, false, false),
+                new Column( "delete_at","DATETIME",         false,           false, false, false, false)
             ];
 
-            $this->createBasicTable($tableName, $colArr_Type, $primaryCol, $foreignKeydata);
+            $this->createBasicTable($tableName, $COLUMNS);
         }
 
-        function executeQueryWithPrepare($from, $sql){
+        function executeQueryWithPrepare($from, $sql)
+        {
             $stmt = $this->dbh->prepare($sql);      //prepare sql query
 
             $stmt->execute();                       //execute query
@@ -208,5 +219,6 @@
         //         fclose($handle);
         //     }
         // }
+
     }
 ?>

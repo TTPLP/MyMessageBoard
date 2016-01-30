@@ -15,15 +15,12 @@
             $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
         }
 
-        //echo $fileName . "\n";
 
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-        echo $fileName . "\n";
-
         require $fileName;
 
-        //if($namespace == "Database") require __DIR__ . "/Database/database.php"; 
+        //if($namespace == "Database") require __DIR__ . "/Database/database.php";
 
         //echo "$namespace";
     });
