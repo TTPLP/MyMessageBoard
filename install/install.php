@@ -14,6 +14,6 @@
     $db->loadDataToTableFromCSV("message", "message.csv");
     $db->loadDataToTableFromCSV("response", "response.csv");
 
-    //$hash = new Database\Hash("abc");
+    $hash = new Hash\Hash("abc");
 
 ?>

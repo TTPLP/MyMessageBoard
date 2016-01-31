@@ -1,5 +1,5 @@
 <?php
-    namespace Database;
+    namespace Hash;
     class Hash{
 
         public $message;
@@ -23,19 +23,20 @@
 
             $delta = 1023 - $this->length;
 
+            var_dump(1 << 512);//(8 * 64));
 
-            $hash *= pow(2, $delta);
 
-            var_dump($hash);
+            $hash = $hash << $delta;
 
-            var_dump($this->getLength($hash));
+            var_dump(0x8000000000000000);
 
+            //var_dump($this->getLength($hash));
 
         }
 
         function getLength($x){
             $count = 0;
-            while ($x > 0) {
+            while ($x !== 0) {
                 $count++;
                 $x = $x >> 1;
             }
