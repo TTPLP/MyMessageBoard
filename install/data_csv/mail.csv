@@ -1,12 +1,13 @@
-1,1,ericmina83@gmail.com,2003/5/8 09:54
-2,2,ericmina84@gmail.com,2003/5/9 09:54
-3,3,ericmina85@gmail.com,2003/5/10 09:54
-4,4,ericmina86@gmail.com,2003/5/11 09:54
-5,5,ericmina87@gmail.com,2003/5/12 09:54
-6,6,ericmina88@gmail.com,2003/5/13 09:54
-7,7,ericmina89@gmail.com,2003/5/14 09:54
-8,8,ericmina90@gmail.com,2003/5/15 09:54
-9,9,ericmina91@gmail.com,2003/5/16 09:54
-10,10,ericmina92@gmail.com,2003/5/17 09:54
-11,1,ericmina93@gmail.com,2003/5/18 09:54
-12,2,ericmina94@gmail.com,2003/5/19 09:54
+user_id ,email          ,delete_at      ,prim
+1       ,test01@test.com,               ,true
+2       ,test02@test.com,               ,true
+3       ,test03@test.com,               ,true
+4       ,test04@test.com,               ,true
+5       ,test05@test.com,               ,true
+6       ,test06@test.com,               ,true
+7       ,test07@test.com,               ,true
+8       ,test08@test.com,               ,true
+9       ,test09@test.com,               ,true
+10      ,test10@test.com,               ,true
+1       ,test11@test.com,               ,false
+2       ,test12@test.com,               ,false

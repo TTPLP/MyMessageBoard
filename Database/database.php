@@ -63,9 +63,9 @@
             $this->executeQueryWithPrepare("createBasicTable()", $sql);
         }
 
-        function insertIntoTable_single($tableName, $data)
+        function insertSingleIntoTableIfNotExists($tableName, $data)
         {
-            $sql = "INSERT INTO " . $tableName . " (";      //
+            $sql = "INSERT INTO " . $tableName . " (";
 
             $values = " VALUES (";
 
@@ -80,51 +80,27 @@
             echo "$sql";
         }
 
-        function insertIntoTable_batch($tableName, $datas, $datafields)
+        function insertIntoTable_batch($tableName, $datafields, $datas)
         {
-            $sql = "INSERT INTO " . $tableName . " (" . implode($datafields);
+            $sql = "INSERT INTO " . $tableName . " (" . implode(',', $datafields) . ') VALUES ';
 
-            //INSERT INTO table (...., ...., .....
-
-
-            foreach ($datas[0] as $key => $value) { //get the column
-                $sql .= $key . ",";
-            }
-
-            $sql = rtrim($sql, ',');
-
-            $sql .= ") VALUES";
-
-            //....) VALUES
+            //INSERT INTO table (...., ...., .....) VALUES
 
             foreach ($datas as $index => $data)
             {
-                $sql .= "(";
+                $sql .= "('" . implode("','", $data) . "'),";
 
-                //....) VALUES (...., ....
-
-                foreach ($data as $colName => $value)
-                {
-                    $sql .= "\"" . $value . "\",";
-                }
-
-                $sql = rtrim($sql, ",");
-                $sql .= "),";
-
-                //....),(...., ....
+                //(...., ...., ....),
             }
 
             $sql = rtrim($sql, ",");
 
-            //INSERT INTO table (.....) values (.....),(.....),(.....),(....
-
-            //$this->executeQueryWithPrepare("insertIntoTable_batch()", $sql);
+            $this->executeQueryWithPrepare("insertIntoTable_batch()", $sql);
         }
 
         function addForeignKeyIntoTable($tableName, $colName, $refTable, $refCol)
         {
             $sql = "ALTER TABLE " . $tableName . " ADD FOREIGN KEY (" . $colName . ") REFERENCES " . $refTable . " (" . $refCol . ");";
-            echo $sql;
             $this->dbh->query($sql);
         }
 
@@ -135,7 +111,7 @@
             $COLUMNS = [
                 //          field       type                extra            nn     pk     uk     fk
                 new Column( "id",       "bigint unsigned",  'auto_increment',true,  true,  false, false),
-                new Column( "username", "VARCHAR(16)",      false,           true,  false, false, false),
+                new Column( "username", "VARCHAR(16)",      false,           true,  false, true,  false),
                 new Column( "password", "VARCHAR(64)",      false,           true,  false, false, false),
                 new Column( "create_at","TIMESTAMP",        false,           true,  false, false, false),
                 new Column( "update_at","TIMESTAMP",        false,           true,  false, false, false),
@@ -209,17 +185,18 @@
             }
         }
 
-        // function loadDataToTableFromCSV($tableName, $filename){
-        //     $datas = [];
-        //     if (($handle = fopen($filename, "r")) !== FALSE) {
-        //         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-        //             $data = [];
-        //             $datas[]
-        //             $insert_mail_stmt->execute(array(":user_id" => $data[1], ":email" => $data[2], ":delete_at" => $data[3]));
-        //         }
-        //         fclose($handle);
-        //     }
-        // }
-
+        function loadDataToTableFromCSV($tableName, $filename){
+            $datas = []; //ther storage for datas;
+            if (($handle = fopen("data_csv/" . $filename, "r")) !== FALSE) {
+                $datafields = fgetcsv($handle, 1000, ",");
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                    array_push($datas, $data);
+                }
+                fclose($handle);
+                $this->insertIntoTable_batch($tableName, $datafields, $datas);
+            }else{
+                throw new Exception("loadDataToTableFromCSV(): this file can't open!", 1);
+            }
+        }
     }
 ?>

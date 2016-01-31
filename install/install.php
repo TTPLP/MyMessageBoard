@@ -9,11 +9,11 @@
     $db->createMessageTable();
     $db->createResponseTable();
 
-    $hash = new Database\Hash("abc");
+    $db->loadDataToTableFromCSV("member", "member.csv");
+    $db->loadDataToTableFromCSV("mail", "mail.csv");
+    $db->loadDataToTableFromCSV("message", "message.csv");
+    $db->loadDataToTableFromCSV("response", "response.csv");
 
-    var_dump($hash->rotateRight(16, 2));
-
-
-    var_dump(0x0000000000000004);
+    //$hash = new Database\Hash("abc");
 
 ?>
