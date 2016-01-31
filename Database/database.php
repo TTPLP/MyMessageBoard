@@ -28,31 +28,33 @@
             $hasPrimary = false;
 
             $sql = "CREATE TABLE IF NOT EXISTS " . $tableName ." (";
+
             foreach ($COLUMNS as $column)
             {
-                $sql .=  $column->field . " " . $column->type . " ";
+                $sql .=  $column->getField() . " " . $column->getType() . " ";
 
-                if($column->extra !== false){
-                    $sql .= $column->extra . " ";
+                if($column->getExtra() !== false){
+                    $sql .= $column->getExtra() . " ";
                 }
 
-                if($column->not_null === true){
+                if($column->getNotNull() === true){
                     $sql .= "NOT NULL";
                 }
 
                 $sql .= ",";
 
-                if($column->primary_key !== false){
-                    $sql .= "PRIMARY KEY (" . $column->field . "),";
+                if($column->getPK() !== false){
+                    $sql .= "PRIMARY KEY (" . $column->getField() . "),";
                 }
 
-                if($column->foreign_key !== false){
-                    $sql .= "FOREIGN KEY (" . $column->field . ") REFERENCES " . $column->foreign_key->refTable . "(";
-                    $sql .= $column->foreign_key->refCol . "),";
+                if($column->getFK !== false){
+                    $sql .= "FOREIGN KEY (" . $column->getField() . ") ";
+                    $sql .= "REFERENCES " . $column->getFK()->refTable . "(";
+                    $sql .= $column->getFK()->refCol . "),";
                 }
 
-                if($column->unique_key !== false){
-                    $sql .= "UNIQUE KEY (" . $column->field . "),";
+                if($column->getUK() !== false){
+                    $sql .= "UNIQUE KEY (" . $column->getField() . "),";
                 }
             }
 
