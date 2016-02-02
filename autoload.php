@@ -4,9 +4,7 @@
     spl_autoload_register(function ($className){
 
         $className = ltrim($className, "\\");   //remove the leftest symbol '\'
-
         $fileName = ""; //create empty storage for filename to include
-
         $namespace = "";
 
         if($lastPos = strrpos($className, "\\")){    //find possition of '\'
@@ -14,7 +12,6 @@
             $className = substr($className, $lastPos + 1);
             $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
         }
-
 
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
