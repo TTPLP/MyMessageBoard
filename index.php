@@ -7,7 +7,7 @@
     <form action='process\login.php' method='post'>
         帳號：<input type="text" name="username" /> <br />
         密碼：<input type="password" name="password" /> <br />
-        <input type="submit" value="送出"> &nbsp <a href="register.html">註冊</a>
+        <input type="submit" value="送出"> &nbsp <a href="page_register.php">註冊</a>
     </form>
 </body>
 </html>

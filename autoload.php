@@ -1,5 +1,7 @@
 <?php
     //refer to http://justericgg.logdown.com/posts/196891-php-series-autoload;
+    if( !session_id() )
+        session_start();
 
     spl_autoload_register(function ($className){
 

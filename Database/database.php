@@ -14,8 +14,10 @@
             try
             {
                 $this->dbh = new PDO("mysql:host=$server_name;dbname=$database_name", $username, $password);
+                $sql = 'set charset \'utf8\'';
+                $this->dbh->executeQueryWithPrepare('connect to database:', );
             }
-            catch (Exception $e)
+            catch (PDOException $e)
             {
                 echo $e->getMessage();
                 exit();
@@ -47,7 +49,7 @@
                     $sql .= "PRIMARY KEY (" . $column->getField() . "),";
                 }
 
-                if($column->getFK !== false){
+                if($column->getFK() !== false){
                     $sql .= "FOREIGN KEY (" . $column->getField() . ") ";
                     $sql .= "REFERENCES " . $column->getFK()->refTable . "(";
                     $sql .= $column->getFK()->refCol . "),";
@@ -90,8 +92,10 @@
 
             foreach ($datas as $index => $data)
             {
+                foreach ($data as $key => $value) {
+                    $data[$key] = trim($value);
+                }
                 $sql .= "('" . implode("','", $data) . "'),";
-
                 //(...., ...., ....),
             }
 
@@ -183,7 +187,8 @@
             $stmt->execute();                       //execute query
 
             if($stmt->errorInfo()[0] !== "00000"){  //if error occur?
-                echo $from . ": " . $stmt->errorInfo()[0] . ":(" . $stmt->errorInfo()[1] . ") " . $stmt->errorInfo()[2] . "\n";
+                $error =  $from . ": " . $stmt->errorInfo()[0] . ":(" . $stmt->errorInfo()[1] . ") " . $stmt->errorInfo()[2] . "\n";
+                throw new Exception($serror, 1);
             }
         }
 

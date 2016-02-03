@@ -12,7 +12,4 @@
     $db->loadDataToTableFromCSV("mail", "mail.csv");
     $db->loadDataToTableFromCSV("message", "message.csv");
     $db->loadDataToTableFromCSV("response", "response.csv");
-
-    $hash = new Hash\Hash("abc");
-
 ?>
