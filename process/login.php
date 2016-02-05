@@ -1,18 +1,26 @@
 <?php
     include __DIR__ . "/../autoload.php";
 
-    $username = '';
-    $password = '';
+    $username = NULL;
+    $password = NULL;
 
     if($_POST !== NULL){
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        if($username !== NULL){
-            if($password !== NULL){
+        if($username !== ''){
+            if($password !== ''){
                 $db = new \Database\Database();
-                checkMemberData($db->dbh, $username, $password);
+                if(checkMemberData($db->dbh, $username, $password)){
+                    echo "success!";
+                }else{
+                    echo "fail!";
+                }
+            }else{
+                echo 'you didn\'t anter your password!';
             }
+        }else{
+            echo 'you did\'t anter your username!';
         }
     }
 
@@ -21,7 +29,9 @@
         $hashcode = substr(hash('sha512', $password), 0, 64);
         $stmt->execute([':username' => $username]);
         if($hashcode === $stmt->fetch()['password']){
-            echo "success";
+            return true;
+        }else{
+            return false;
         }
     }
 
