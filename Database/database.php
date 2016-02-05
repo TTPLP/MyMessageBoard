@@ -5,15 +5,16 @@
 
     class Database{
 
+        const CONFIG_FILE = __DIR__ . '/../database_config.ini';
         public $dbh;
 
         function __construct()
         {
-            require __DIR__ . "/database_config.php";
-
             try
             {
-                $this->dbh = new PDO("mysql:host=$server_name;dbname=$database_name", $username, $password);
+                $ini_array = parse_ini_file(self::CONFIG_FILE);
+                $connect_handle = "mysql:host=" . $ini_array["server_name"] . ";dbname=" . $ini_array["database_name"];
+                $this->dbh = new PDO($connect_handle, $ini_array['username'], $ini_array['password']);
                 $sql = 'set charset \'utf8\'';
                 $this->executeQueryWithPrepare($sql);
             }
@@ -123,7 +124,7 @@
 
             if($stmt->errorInfo()[0] !== "00000"){  //if error occur?
                 //$error =  $stmt->errorInfo()[0] . ":(" . $stmt->errorInfo()[1] . ") " . $stmt->errorInfo()[2] . "\n";
-                throw new $stmt->errorInfo();
+                // throw new $stmt->errorInfo();
             }
         }
     }
