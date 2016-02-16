@@ -19,4 +19,9 @@
 
         require $fileName;
     });
-?>
+
+
+    function url($fileName){
+        $path = __DIR__ . $fileName;
+        return $path;
+    }

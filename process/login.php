@@ -1,27 +1,22 @@
 <?php
-    include __DIR__ . "/../autoload.php";
+    include $_SERVER['DOCUMENT_ROOT'] . "/autoload.php";
 
-    $username = NULL;
-    $password = NULL;
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    if($_POST !== NULL){
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-
-        if($username !== ''){
-            if($password !== ''){
-                $db = new \Database\Database();
-                if(checkMemberData($db->dbh, $username, $password)){
-                    echo "success!";
-                }else{
-                    echo "fail!";
-                }
+    if($username !== ''){
+        if($password !== ''){
+            $db = new \Database\Database();
+            if(checkMemberData($db->dbh, $username, $password)){
+                echo "success!";
             }else{
-                echo 'you didn\'t anter your password!';
+                echo "fail!";
             }
         }else{
-            echo 'you did\'t anter your username!';
+            echo 'you didn\'t anter your password!';
         }
+    }else{
+        echo 'you did\'t anter your username!';
     }
 
     function checkMemberData($dbh, $username, $password){

@@ -1,19 +1,13 @@
 <?php
     namespace Database;
+
     class Column{
-
         private $field;
-
         private $type;
-
         private $extra;
-
         private $not_null;
-
         private $primary_key;
-
         private $unique_key;
-
         private $foreign_key;
 
         function __construct($field, $type, $extra, $not_null, $primary_key, $unique_key, $foreign_key){
@@ -25,7 +19,6 @@
             $this->unique_key = $unique_key;
             $this->extra = $extra;
         }
-
 
         function getField(){
             return $this->field;

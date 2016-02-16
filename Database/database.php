@@ -1,20 +1,23 @@
 <?php
     namespace Database;
+
     use \PDO;
     use \Exception;
 
     class Database{
 
-        const CONFIG_FILE = __DIR__ . '/../database_config.ini';
         public $dbh;
 
         function __construct()
         {
             try
             {
-                $ini_array = parse_ini_file(self::CONFIG_FILE);
-                $connect_handle = "mysql:host=" . $ini_array["server_name"] . ";dbname=" . $ini_array["database_name"];
-                $this->dbh = new PDO($connect_handle, $ini_array['username'], $ini_array['password']);
+                $ini_array = parse_ini_file(url('/database_config.ini'));
+
+                $dsn = "mysql:host=" . $ini_array["server_name"];
+                $dsn .= ";dbname=" . $ini_array["database_name"];
+
+                $this->dbh = new PDO($dsn, $ini_array['username'], $ini_array['password']);
                 $sql = 'set charset \'utf8\'';
                 $this->executeQueryWithPrepare($sql);
             }
