@@ -12,7 +12,7 @@
         {
             try
             {
-                $ini_array = parse_ini_file(url('/database_config.ini'));
+                $ini_array = parse_ini_file(path('/database_config.ini'));
 
                 $dsn = "mysql:host=" . $ini_array["server_name"];
                 $dsn .= ";dbname=" . $ini_array["database_name"];

@@ -1,7 +1,5 @@
 <?php
     //refer to http://justericgg.logdown.com/posts/196891-php-series-autoload;
-    if( !session_id() )
-        session_start();
 
     spl_autoload_register(function ($className){
 
@@ -22,6 +20,13 @@
 
 
     function url($fileName){
-        $path = __DIR__ . $fileName;
+        $fileName = ltrim($fileName, '/');
+        $url = "http://" . $_SERVER["HTTP_HOST"] . "/" . $fileName;
+        return $url;
+    }
+
+    function path($fileName){
+        $fileName = ltrim($fileName, '/');
+        $path = __DIR__ . "/" . $fileName;
         return $path;
     }

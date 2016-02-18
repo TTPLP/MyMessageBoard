@@ -11,28 +11,12 @@
 
     try {
         loadDataToTableFromCSV($db, "member", "member.csv");
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
-
-    try {
         loadDataToTableFromCSV($db, "mail", "mail.csv");
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
-
-    try {
         loadDataToTableFromCSV($db, "message", "message.csv");
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
-
-    try {
         loadDataToTableFromCSV($db, "response", "response.csv");
     } catch (Exception $e) {
         echo $e->getMessage();
     }
-
 
     function createMessageTable($db)
     {

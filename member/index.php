@@ -1,3 +1,12 @@
+<?php
+
+    include __DIR__ . "/../autoload.php";
+
+    echo "<title>帳號資訊</title>";
+
+    echo "帳號：";
+
+
 <!DOCTYPE html>
 <html>
 <head>
