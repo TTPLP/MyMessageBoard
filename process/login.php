@@ -1,6 +1,9 @@
 <?php
     include $_SERVER['DOCUMENT_ROOT'] . "/autoload.php";
 
+    if(!session_id())
+        session_start();
+
     $username = $_POST['username'];
     $password = $_POST['password'];
 

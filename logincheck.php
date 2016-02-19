@@ -3,8 +3,12 @@
         session_start();
 
     if(!$_SESSION["username"]){
-        echo "<script type='text/javascript'>";
-        echo "alert('您未登入');";
-        echo "</script>";
+        showAlertView("登入失敗！");
         header("Location:index.php");
+    }
+
+    function showAlertView($message){
+        echo "<script type='text/javascript'>";
+        echo "alert(\"". $message ."\")";
+        echo "</script>";
     }

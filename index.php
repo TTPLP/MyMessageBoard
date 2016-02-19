@@ -1,6 +1,15 @@
 <?php
     include __DIR__ . "/autoload.php";
 
+
+    if(!session_id()){
+        session_start();
+
+        if(@$_SESSION['username'] !== NULL){
+            header("Location:" . url("/guestbook"));
+        }
+    }
+
     echo "<head>";
     echo"<link href='/css/layout.css' rel='stylesheet' type='text/css' />";
     echo "<title>登入頁面</title>";

@@ -6,23 +6,24 @@
     $password2 = $_POST['password2'];
     $email = $_POST['email'];
 
-    if($username !== NULL){
-        if($password !== NULL){
-            if($password2 !== NULL){
-                if($password === $password2){
-                    if($email !== NULL){
-                        $db = new \Database\Database();
-                        insertMemberData($db->dbh, $username, $password, $email);
-                        header("Location:" . url("/index.php"));
-                    }
-                }
-            }
-        }
+    $filled_check = 
+
+    if($username !== NULL && $password !== NULL && $password2 !== null && $email !== NULL){
     }
+
+    if(){
+
+    }
+
+    $db = new \Database\Database();
+    insertMemberData($db->dbh, $username, $password, $email);
+    header("Location:" . url("/index.php"));
 
     function insertMemberData($dbh, $username, $password, $email){
         $stmt = $dbh->prepare('insert into member (username, password, create_at, update_at) values (:username, :password, :create_at, :update_at);');
         $hashcode = hash('sha512', $password);
+
+        var_dump($hashcode);
 
         $data = [
         ':username' => $username,
