@@ -28,8 +28,8 @@
             new Column( "user_id",  "bigint unsigned",  false,           true,  false, false, new FKData("member", "id")),
             new Column( "title",    "VARCHAR(16)",      false,           true,  false, false, false),
             new Column( "content",  "TEXT",             false,           true,  false, false, false),
-            new Column( "create_at","TIMESTAMP",        false,           true,  false, false, false),
-            new Column( "update_at","TIMESTAMP",        false,           true,  false, false, false),
+            new Column( "create_at","DATETIME",        false,           true,  false, false, false),
+            new Column( "update_at","DATETIME",        false,           true,  false, false, false),
             new Column( "delete_at","DATETIME",         false,           false, false, false, false)
         ];
 
@@ -46,8 +46,8 @@
             new Column( "message_id","bigint unsigned", false,           true,  false, false, new FKData("message", "id")),
             new Column( "title",    "VARCHAR(16)",      false,           true,  false, false, false),
             new Column( "content",  "TEXT",             false,           true,  false, false, false),
-            new Column( "create_at","TIMESTAMP",        false,           true,  false, false, false),
-            new Column( "update_at","TIMESTAMP",        false,           true,  false, false, false),
+            new Column( "create_at","DATETIME",        false,           true,  false, false, false),
+            new Column( "update_at","DATETIME",        false,           true,  false, false, false),
             new Column( "delete_at","DATETIME",         false,           false, false, false, false)
         ];
 
@@ -62,8 +62,8 @@
             new Column( "id",       "bigint unsigned",  'auto_increment',true,  true,  false, false),
             new Column( "username", "VARCHAR(16)",      false,           true,  false, true,  false),
             new Column( "password", "VARCHAR(64)",      false,           true,  false, false, false),
-            new Column( "create_at","TIMESTAMP",        false,           true,  false, false, false),
-            new Column( "update_at","TIMESTAMP",        false,           true,  false, false, false),
+            new Column( "create_at","DATETIME",        false,           true,  false, false, false),
+            new Column( "update_at","DATETIME",        false,           true,  false, false, false),
             new Column( "delete_at","DATETIME",         false,           false, false, false, false)
         ];
 

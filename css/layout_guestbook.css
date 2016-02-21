@@ -1,21 +1,3 @@
 body{
     background-color: #EEE;
 }
-
-.member_bar{
-    margin: 30px auto;
-    line-height: 40px;
-
-    max-width: 600px;
-    text-align: center;
-    border: 5px solid #444;
-    background-color: #FFF;
-}
-
-.message_list{
-    max-width: 600px;
-    margin: 20px auto;
-    line-height: 30px;
-    border: 5px solid #444;
-    background-color: #FFF;
-}

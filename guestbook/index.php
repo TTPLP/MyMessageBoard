@@ -12,7 +12,7 @@
     $messages = $stmt->fetchAll();
     // end of preparing message
 
-    echo"<link href='/css/layout_guestbook.css' rel='stylesheet' type='text/css' />";
+    echo"<link href='/css/layout.css' rel='stylesheet' type='text/css' />";
 
     //member_bar
     echo "<title>留言板</title>";
@@ -32,12 +32,15 @@
 
         echo "<li>";
         {
-            echo "<input type='checkbox' />";
-            echo "主題：<a href='" . url("message?message_id=" . $value["id"]) . "'>" . $value["title"] . "</a>" . "&nbsp";
-
             $stmt->execute([":user_id" => $value['user_id']]);
-            echo "留言人：" . $stmt->fetch()["username"];
+            $author = $stmt->fetch()["username"];
 
+            if($_SESSION['username'] === $author)
+                echo "<input type='checkbox' />";
+
+            echo "主題：<a href='" . url("message?message_id=" . $value["id"]) . "'>" . $value["title"] . "</a>" . "&nbsp";
+            echo "留言時間：" . $value['create_at'] . "&nbsp";
+            echo "留言人：" . $author;
             echo "<br />";
         }
         echo "</li>";
