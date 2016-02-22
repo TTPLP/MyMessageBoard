@@ -2,7 +2,7 @@ body{
     background-color: #EEE;
 }
 
-.BOX{
+.center_box_text_center{
     width: 300px;
     line-height: 30px;
     border: 5px solid #444;
@@ -14,24 +14,35 @@ body{
     left: 50%;
     top: 50%;
 
+    padding: 10px;
     margin-top: -100px;
     margin-left: -150px;
-}
-
-.member_bar{
-    margin: 30px auto;
-    line-height: 40px;
-
-    max-width: 600px;
-    text-align: center;
-    border: 5px solid #444;
     background-color: #FFF;
 }
 
-.message_list{
+.normal_box_text_center{
+    text-align: center;
+
+    padding: 10px;
     max-width: 600px;
     margin: 20px auto;
     line-height: 30px;
     border: 5px solid #444;
     background-color: #FFF;
 }
+
+.normal_box_text_left{
+    padding: 10px;
+    max-width: 600px;
+    margin: 20px auto;
+    line-height: 30px;
+    border: 5px solid #444;
+    background-color: #FFF;
+}
+
+textarea{
+    width: 100%;
+    height: 100px;
+    resize: none;
+}
+

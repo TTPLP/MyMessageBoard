@@ -6,19 +6,25 @@
 
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $db = new \Database\Database();
 
-    if($username !== '' && $password !== ''){
-        $db = new \Database\Database();
-        if(checkMemberData($db->dbh, $username, $password) === true){
-            $_SESSION['username'] = $username;  //Store the correct username in session.
-            header("Location:" . url("/guestbook"));    //Change page.
+    echo "<link href='/css/layout.css' rel='stylesheet' type='text/css' />";
+    echo "<div class='center_box_text_center'>";
+
+    if($username === '' || $password === ''){
+        echo "您的帳號或密碼未填寫！</div>";
+        header("Refresh:3; url=" . url(""));
+        exit();
+    } else{
+        if (checkMemberData($db->dbh, $username, $password) !== true){
+            echo "您的帳號或密碼錯誤！</div>";
+            header("Refresh:3; url=" . url(""));
+            exit();
         }else{
-            showAlertView("登入失敗！");
-            header("Location:" . url());
+            echo "登入成功！</div>";
+            header("Refresh:3; url=" . url("/guestbook"));
+            exit();
         }
-    }else{
-        showAlertView("您沒有輸入帳號或是密碼！");
-        header("Location:" . url());
     }
 
     function checkMemberData($dbh, $username, $password){
@@ -27,15 +33,9 @@
         $stmt->execute([':username' => $username]);
 
         if($hashcode === $stmt->fetch()['password']){   //checl password correct or not
+            $_SESSION['username'] = $username;
             return true;
         }else{
             return false;
         }
     }
-
-    function showAlertView($message){
-        echo "<script type='text/javascript'>";
-        echo "alert(\"". $message ."\")";
-        echo "</script>";
-    }
-

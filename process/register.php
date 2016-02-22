@@ -1,30 +1,30 @@
 <?php
     include __DIR__ . "/../autoload.php";
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $password2 = $_POST['password2'];
-    $email1 = $_POST['email1'];
-    $email2 = $_POST['email2'];
+    $username = @$_POST['username'];
+    $password = @$_POST['password'];
+    $password2 = @$_POST['password2'];
+    $email1 = @$_POST['email1'];
+    $email2 = @$_POST['email2'];
 
     echo "<link rel='stylesheet' type='text/css' href='" . url("css/layout.css") . "'>";
 
-    $filled_check = false;
+    echo "<div class=center_box_text_center>";
 
-    if($username === "" || $password === "" || $password2 === "" || $email1 === ""){
-        echo "<div class=BOX>您有欄位尚未填寫。</div>";
+    if(!$username || !$password || !$password2 || !$email1){
+        echo "您有欄位尚未填寫。</div>";
         header("Refresh:3; url=" . url("register"));
         exit();
     }else if($password !== $password2){
-        echo "<div class=BOX>您的重複輸入密碼是不相符的。</div>";
+        echo "您的重複輸入密碼是不相符的。</div>";
         header("Refresh:3; url=" . url("register"));
         exit();
     }else if(!filter_var($email1, FILTER_VALIDATE_EMAIL)){
-        echo "<div class=BOX>您的信箱輸入不符格式。</div>";
+        echo "您的信箱輸入不符格式。</div>";
         header("Refresh:3; url=" . url("register"));
         exit();
     }else if(!preg_match('/^\w*$/', $username)){ //字體允許小寫與大寫英文字母和阿拉伯數字，字數限制最小8個字，最多16字
-        echo "<div class=BOX>您的帳號輸入不符格式。</div>";
+        echo "您的帳號輸入不符格式。</div>";
         header("Refresh:3; url=" . url("register"));
         exit();
     }else{
@@ -50,7 +50,7 @@
 
         if($stmt->errorInfo()[0] !== "00000"){
             $dbh->query("ROLLBACK");    //roll back the command.
-            echo "<div class=BOX>該帳號已被註冊！</div>";
+            echo "該帳號已被註冊！</div>";
             header("Refresh:3; url=" . url("/register"));
             exit();
         }
@@ -65,7 +65,7 @@
 
         if($stmt->errorInfo()[0] !== "00000"){
             $dbh->query("ROLLBACK");    //roll back the command.
-            echo "<div class=BOX>該信箱已被註冊！</div>";
+            echo "該信箱已被註冊！</div>";
             header("Refresh:3; url=" . url("/register"));
             exit();
         }
@@ -73,7 +73,7 @@
         $dbh->query("COMMIT;");
 
         if($stmt->errorInfo()[0] === "00000"){
-            echo "<div class=BOX>註冊成功！</div>";
+            echo "註冊成功！</div>";
             header("Refresh:3; url=" . url(""));
         }
     }

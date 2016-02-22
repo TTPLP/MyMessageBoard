@@ -39,8 +39,6 @@
     <p>
         <p align="center"><label>新增留言</label></p>
         <form>
-            留言人：abc <br />
-            信箱：abc@haha.com <br />
             留言主題：<input type="text" name="title" size="20" /> <br />
             留言內容：<br />
             <textarea name="content" cols="60" rows="30"></textarea> <br />

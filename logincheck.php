@@ -2,13 +2,10 @@
     if(!session_id())
         session_start();
 
-    if(!$_SESSION["username"]){
-        showAlertView("登入失敗！");
-        header("Location:index.php");
-    }
+    echo"<link href='/css/layout.css' rel='stylesheet' type='text/css' />";
 
-    function showAlertView($message){
-        echo "<script type='text/javascript'>";
-        echo "alert(\"". $message ."\")";
-        echo "</script>";
+    if(!@$_SESSION["username"]){
+        echo "<div class='center_box_text_center'>您尚未登入</div>";
+        header("Refresh:3; url=" . $_SERVER['']);
+        exit();
     }

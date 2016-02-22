@@ -4,8 +4,9 @@
     <link rel="stylesheet" type="text/css" href="css/layout.css">
 </head>
 <body>
-    <div class="BOX">
+    <div class="center_box_text_center">
         <form action="process/register.php" method="post">
+            請輸入帳號資料！<br />
             帳號：<input type="text" name="username"/> <br/>
             密碼：<input type="password" name="password"/> <br/>
             再次輸入密碼：<input type="password" name="password2"/> <br/>
@@ -16,3 +17,14 @@
     </div>
 </body>
 </html>
+
+<?php
+    include __DIR__ . "/../autoload.php";
+
+    if(!session_id()){
+        session_start();
+
+        if(@$_SESSION['username'] !== NULL){
+            header("Location:" . url("/guestbook"));
+        }
+    }
