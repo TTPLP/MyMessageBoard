@@ -60,7 +60,7 @@
         ':email1' => $email1
         ];
 
-        $stmt = $dbh->prepare('INSERT INTO mail (email1, user_id ,prim) SELECT :email1, id, true FROM member WHERE username = :username;');
+        $stmt = $dbh->prepare('INSERT INTO mail (email, user_id ,prim) SELECT :email1, id, true FROM member WHERE username = :username;');
         $stmt->execute($contentValue);
 
         if($stmt->errorInfo()[0] !== "00000"){

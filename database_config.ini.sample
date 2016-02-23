@@ -1,5 +1,5 @@
 [database]
-$server_name = ""
-$database_name = ""
-$username = ""
-$password = ""
+server_name = ""
+database_name = ""
+username = ""
+password = ""
