@@ -1,0 +1,45 @@
+header {
+    text-align: center;
+    height: 140px;
+    overflow: hidden;
+}
+
+header #site-title {
+    line-height: 1.15em;
+    font-size: 3em;
+}
+
+
+#message-page .top.attached.segment {
+    color: #FFFFFF !important;
+    text-align: center;
+    font-size: 1.75em;
+    font-weight: 700;
+    /*background: #6BB6FF !important;*/
+    background: black;
+}
+
+#message-page .bottom.attached.segment {
+    text-align: center;
+    font-size: 1.75em;
+    font-weight: 700;
+    background: #FFFFFF;
+    line-height: 1.75em;
+}
+
+#error-info .top.attached.segment {
+    color: #FFFFFF !important;
+    text-align: center;
+    font-size: 1.75em;
+    font-weight: 700;
+    /*background: #6BB6FF !important;*/
+    background: black;
+}
+
+#error-info .bottom.attached.segment {
+    text-align: center;
+    font-size: 1.75em;
+    font-weight: 700;
+    background: #FFFFFF;
+    line-height: 1.75em;
+}
