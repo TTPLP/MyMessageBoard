@@ -76,12 +76,14 @@
             <!-- divider -->
             <div class="ui hirizontal divider"></div>
 
+            <!-- message -->
             <div class="ui container">
                 <div class="ui secondary top attached segment"><?= $title?></div>
                 <div id='user-name' class="ui bottom attached segment">
                     <?= $content?>
                     <div><a class="ui green button" href="">修改</a><a href="" class="ui red button">刪除</a></div>
 
+                    <!-- response message -->
                     <div class="ui hirizontal divider"></div>
                     <form action="/message/add_response.php" method="POST">
                         <div align="center" style="line-height: 1.5em;">回覆</div>
@@ -96,7 +98,7 @@
             <!-- divider -->
             <div class="ui hirizontal divider"></div>
 
-            <!-- 回覆 -->
+            <!-- show responses -->
             <div style="text-align: center; font-size: 1.75em; line-height: 1.75em;">回覆</div>
 <?php
     foreach ($responses as $key => $value) {

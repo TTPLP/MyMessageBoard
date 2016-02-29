@@ -12,7 +12,7 @@
 
     //prepare variable
     $title = $_POST['title'];
-    $content = htmlentities(nl2br($_POST['content']));  //anti xss
+    $content = nl2br(htmlentities($_POST['content']));  //anti xss
 
     $db = new Database\Database();
     $dbh = $db->dbh;
